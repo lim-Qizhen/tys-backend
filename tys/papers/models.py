@@ -25,6 +25,7 @@ class Paper(models.Model):
     def __str__(self):
         return self.paper_id
 
+
 class Question(models.Model):
     ANSWER_CHOICES = [
         ('A','A'),
@@ -32,11 +33,11 @@ class Question(models.Model):
         ('C','C'),
         ('D','D'),
     ]
-    paper_id = models.CharField(max_length=7)
+    paper_id = models.CharField(max_length=255)
     question_number = models.IntegerField()
     question_img = models.CharField(max_length=255)
     answer = models.CharField(max_length=1, choices = ANSWER_CHOICES)
     solution = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.subject, self.year
+        return self.paper_id

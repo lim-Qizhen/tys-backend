@@ -42,13 +42,6 @@ class StudentLogin(APIView):
         serializer.is_valid()
         return Response(serializer.data)
 
-    # def get(self, request):
-    #     print(request.data)
-    #     username = request.data['username']
-    #     student = Student.objects.filter(username=username)[0]
-    #     serializer = StudentSerializer(student)
-    #     return Response(serializer.data)
-
 
 class StudentProfile(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -59,7 +52,7 @@ class StudentProfile(APIView):
         return Response(serializer.data)
 
 
-#for registration
+#get and save papers at registration
 class StudentPapers(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -97,14 +90,3 @@ class RelevantPapers(APIView):
         print(serializers.data)
         # serializers.is_valid()
         return Response(serializers.data)
-
-# class StudentPapers(APIView):
-#     permission_classes = (permissions.AllowAny,)
-#
-#     def get(self, request, subjects, exams):
-#         papers = Paper.objects.filter(subject=subjects).filter(exams=exams)
-#         print(papers)
-#         serializers = PaperSerializer(papers, many=True)
-#         print(serializers.data)
-#         # serializers.is_valid()
-#         return Response(serializers.data)
