@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import StudentSerializer, TokenSerializer, PaperSerializer, StudentPaperSerializer
+from .serializers import StudentSerializer, TokenSerializer, PaperSerializer, StudentPaperSerializer, StudentCompletedPaperSerializer
 from .models import Student, StudentPaper
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import permissions
@@ -105,3 +105,19 @@ class RelevantPapers(APIView):
         print(serializers.data)
         # serializers.is_valid()
         return Response(serializers.data)
+
+
+
+#for review
+class ReviewPapers(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request):
+        print(request.data)
+        serializer = StudentCompletedPaperSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            print(serializer.errors)
+            return Response('Error with saving student work.')

@@ -59,8 +59,8 @@ class StudentCompletedPapers(models.Model):
         ('C','C'),
         ('D','D'),
     ]
-    username = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
-    paper_id = models.ForeignKey('papers.Question', on_delete=models.DO_NOTHING)
+    username = models.CharField(max_length=100)
+    paper_id = models.CharField(max_length=255)
     question_number = models.IntegerField()
     question_img = models.CharField(max_length=255)
     answer = models.CharField(max_length=1, choices = ANSWER_CHOICES)

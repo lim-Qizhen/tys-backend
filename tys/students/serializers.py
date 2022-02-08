@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student, StudentPaper
+from .models import Student, StudentPaper, StudentCompletedPapers
 from django.apps import apps
 Paper = apps.get_model('papers', 'Paper')
 
@@ -33,4 +33,10 @@ class StudentPaperSerializer(serializers.ModelSerializer):
 class PaperSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paper
+        fields = '__all__'
+
+
+class StudentCompletedPaperSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentCompletedPapers
         fields = '__all__'
