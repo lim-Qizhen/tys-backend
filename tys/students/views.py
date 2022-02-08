@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import StudentSerializer, TokenSerializer, PaperSerializer, StudentPaperSerializer
-from .models import Student
+from .models import Student, StudentPaper
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import permissions
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -17,9 +17,7 @@ class StudentCreate(APIView):
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-
             return Response(serializer.data)
-
         else:
             return Response('Error with creating student account.')
 
@@ -61,25 +59,39 @@ class StudentProfile(APIView):
         return Response(serializer.data)
 
 
+#for registration
 class StudentPapers(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    # def get(self, request, subjects, exams):
-    #     papers = Paper.objects.filter(subject=subjects).filter(exams=exams)
-    #     print(papers)
-    #     serializers = PaperSerializer(papers, many=True)
-    #     print(serializers.data)
-    #     # serializers.is_valid()
-    #     return Response(serializers.data)
+    def get(self, request, subjects, exams):
+        papers = Paper.objects.filter(subject=subjects).filter(exams=exams)
+        print(papers)
+        serializers = PaperSerializer(papers, many=True)
+        print(serializers.data)
+        # serializers.is_valid()
+        return Response(serializers.data)
 
+    #save available papers for students
     def post(self, request):
         print(request.data)
         serializer = StudentPaperSerializer(data=request.data)
+        print(serializer.is_valid())
         if serializer.is_valid():
-            print(serializer.data)
+            # print(serializer.data)
             serializer.save()
 
             return Response(serializer.data)
 
         else:
+            print(serializer.errors)
             return Response('Error with saving student papers.')
+
+#for login
+class RelevantPapers(APIView):
+    def get(self,request, username):
+        papers = StudentPaper.objects.filter(username=subjects)
+        print(papers)
+        serializers = StudentPaperSerializer(papers, many=True)
+        print(serializers.data)
+        # serializers.is_valid()
+        return Response(serializers.data)
