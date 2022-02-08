@@ -64,11 +64,8 @@ class StudentProfile(APIView):
 class StudentPapers(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request):
-        subjects = request.data['subjects']
-        exams = request.data['exams']
-
-        papers = Paper.objects.filter(subject=subjects).filter(exams=exams)[0]
+    def get(self, request, subjects, exams):
+        papers = Paper.objects.filter(subject=subjects).filter(exams=exams)
         print(papers)
         serializers = PaperSerializer(papers, many=True)
         print(serializers.data)
