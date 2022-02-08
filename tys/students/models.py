@@ -49,3 +49,21 @@ class StudentPaper(models.Model):
 
     # def __str__(self):
     #     return self.username
+
+
+#for review
+class StudentCompletedPapers(models.Model):
+    ANSWER_CHOICES = [
+        ('A','A'),
+        ('B','B'),
+        ('C','C'),
+        ('D','D'),
+    ]
+    username = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+    paper_id = models.ForeignKey('papers.Question', on_delete=models.DO_NOTHING)
+    question_number = models.IntegerField()
+    question_img = models.CharField(max_length=255)
+    answer = models.CharField(max_length=1, choices = ANSWER_CHOICES)
+    student_answer = models.CharField(max_length=1, choices = ANSWER_CHOICES)
+    accuracy = models.BooleanField()
+    solution = models.CharField(max_length=255)

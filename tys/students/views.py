@@ -55,7 +55,7 @@ class StudentProfile(APIView):
 #get and save papers at registration
 class StudentPapers(APIView):
     permission_classes = (permissions.AllowAny,)
-
+    #read available papers for students
     def get(self, request, subjects, exams):
         papers = Paper.objects.filter(subject=subjects).filter(exams=exams)
         print(papers)
@@ -64,7 +64,7 @@ class StudentPapers(APIView):
         # serializers.is_valid()
         return Response(serializers.data)
 
-    #save available papers for students
+    #create available papers for students
     def post(self, request):
         print(request.data)
         serializer = StudentPaperSerializer(data=request.data)
@@ -72,12 +72,27 @@ class StudentPapers(APIView):
         if serializer.is_valid():
             # print(serializer.data)
             serializer.save()
-
             return Response(serializer.data)
-
         else:
-            print(serializer.errors)
             return Response('Error with saving student papers.')
+
+    #submit paper
+    def put(self, request, username, paper_id):
+        student_papers = StudentPaper.objects.filter(username=username)
+        paper = student_papers.get(paper_id=paper_id)
+        # serializers = StudentPaperSerializer(paper, many=True)
+        # serializers.data[0]['completed'] = True
+        # serializers.data[0]['completed'] = request.POST.get('results')
+        print(paper)
+        paper.completed = True
+        # print(request.data['results'])
+        paper.results = request.data['results']
+        paper.save()
+        # print(serializers.data[0]['completed'])
+        # print(serializers.data.completed)
+        # print(serializers.data.results)
+        return Response("Submitted!")
+
 
 #for login
 class RelevantPapers(APIView):
