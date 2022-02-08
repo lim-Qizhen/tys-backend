@@ -46,3 +46,6 @@ class StudentPaper(models.Model):
     results = models.FloatField(default=0)
     duration = models.DurationField(default=timedelta(days=0, seconds=0))
     reviewed = models.BooleanField(default=False)
+
+    # def __str__(self):
+    #     return self.username

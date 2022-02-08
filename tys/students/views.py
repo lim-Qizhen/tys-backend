@@ -88,10 +88,23 @@ class StudentPapers(APIView):
 
 #for login
 class RelevantPapers(APIView):
-    def get(self,request, username):
-        papers = StudentPaper.objects.filter(username=subjects)
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, username):
+        papers = StudentPaper.objects.filter(username=username)
         print(papers)
         serializers = StudentPaperSerializer(papers, many=True)
         print(serializers.data)
         # serializers.is_valid()
         return Response(serializers.data)
+
+# class StudentPapers(APIView):
+#     permission_classes = (permissions.AllowAny,)
+#
+#     def get(self, request, subjects, exams):
+#         papers = Paper.objects.filter(subject=subjects).filter(exams=exams)
+#         print(papers)
+#         serializers = PaperSerializer(papers, many=True)
+#         print(serializers.data)
+#         # serializers.is_valid()
+#         return Response(serializers.data)
