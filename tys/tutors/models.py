@@ -5,8 +5,8 @@ from django.contrib.auth.models import AbstractBaseUser
 # Create your models here.
 class Tutor(AbstractBaseUser):
     SCHOOL_CHOICES = [
-        ('Admiralty Secondary School', 'Admiralty Secondary School'),
-        ('Anglican High School', 'Anglican High School'),
+        ('Admiralty_Secondary_School', 'Admiralty Secondary School'),
+        ('Anglican_High_School', 'Anglican High School'),
     ]
     SUBJECT_CHOICES = [
         ('Physics', 'Physics'),

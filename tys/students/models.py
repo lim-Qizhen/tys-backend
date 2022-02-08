@@ -7,20 +7,20 @@ from django.contrib.auth.models import AbstractBaseUser
 
 class Student(AbstractBaseUser):
     SCHOOL_CHOICES = [
-        ('Admiralty Secondary School', 'Admiralty Secondary School'),
-        ('Anglican High School', 'Anglican High School'),
+        ('Admiralty_Secondary_School', 'Admiralty Secondary School'),
+        ('Anglican_High_School', 'Anglican High School'),
     ]
     SUBJECT_CHOICES = [
-        ('Science (Physics)', 'Science (Physics)'),
-        ('Science (Chemistry)', 'Science (Chemistry)'),
-        ('Science (Biology)', 'Science (Biology)'),
+        ('Science_(Physics)', 'Science (Physics)'),
+        ('Science_(Chemistry)', 'Science (Chemistry)'),
+        ('Science_(Biology)', 'Science (Biology)'),
         ('Physics', 'Physics'),
         ('Chemistry', 'Chemistry'),
         ('Biology', 'Biology'),
     ]
     EXAM_CHOICES = [
-        ('Normal (Academic)', 'Normal (Academic)'),
-        ('Normal (Technical)', 'Normal (Technical)'),
+        ('Normal_(Academic)', 'Normal (Academic)'),
+        ('Normal_(Technical)', 'Normal (Technical)'),
         ('Express', 'Express'),
     ]
 
@@ -40,9 +40,12 @@ class Student(AbstractBaseUser):
 
 
 class StudentPaper(models.Model):
-    username = models.ForeignKey(Student, on_delete=models.PROTECT)
-    paper_id = models.ForeignKey('papers.Paper', on_delete=models.PROTECT)
+    username = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+    paper_id = models.ForeignKey('papers.Paper', on_delete=models.DO_NOTHING)
     completed = models.BooleanField(default=False)
     results = models.FloatField(default=0)
     duration = models.DurationField(default=0)
     reviewed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.username

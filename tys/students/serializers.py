@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student
+from .models import Student, StudentPaper
 from django.apps import apps
 Paper = apps.get_model('papers', 'Paper')
 
@@ -22,6 +22,12 @@ class StudentSerializer(serializers.ModelSerializer):
 
 class TokenSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=255)
+
+
+class StudentPaperSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentPaper
+        fields = '__all__'
 
 
 class PaperSerializer(serializers.ModelSerializer):

@@ -5,16 +5,16 @@ from django.db import models
 
 class Paper(models.Model):
     SUBJECT_CHOICES = [
-        ('Science (Physics)', 'Science (Physics)'),
-        ('Science (Chemistry)', 'Science (Chemistry)'),
-        ('Science (Biology)', 'Science (Biology)'),
+        ('Science_(Physics)', 'Science (Physics)'),
+        ('Science_(Chemistry)', 'Science (Chemistry)'),
+        ('Science_(Biology)', 'Science (Biology)'),
         ('Physics', 'Physics'),
         ('Chemistry', 'Chemistry'),
         ('Biology', 'Biology'),
     ]
     EXAM_CHOICES = [
-        ('Normal (Academic)', 'Normal (Academic)'),
-        ('Normal (Technical)', 'Normal (Technical)'),
+        ('Normal_(Academic)', 'Normal (Academic)'),
+        ('Normal_(Technical)', 'Normal (Technical)'),
         ('Express', 'Express'),
     ]
     year = models.IntegerField()
