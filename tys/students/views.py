@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import StudentSerializer, TokenSerializer, PaperSerializer, StudentPaperSerializer, StudentCompletedPaperSerializer
-from .models import Student, StudentPaper
+from .models import Student, StudentPaper, StudentCompletedPapers
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import permissions
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -121,3 +121,11 @@ class ReviewPapers(APIView):
         else:
             print(serializer.errors)
             return Response('Error with saving student work.')
+
+    def get(self,request, username, paper_id):
+        questions = StudentCompletedPapers.objects.filter(username=username).filter(paper_id=paper_id)
+        print(questions)
+        serializers = StudentCompletedPaperSerializer(questions, many=True)
+        print(serializers.data)
+        # serializers.is_valid()
+        return Response(serializers.data)
