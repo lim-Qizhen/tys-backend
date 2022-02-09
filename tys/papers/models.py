@@ -11,6 +11,7 @@ class Paper(models.Model):
         ('Physics', 'Physics'),
         ('Chemistry', 'Chemistry'),
         ('Biology', 'Biology'),
+        ('Science', 'Science'),
     ]
     EXAM_CHOICES = [
         ('Normal_(Academic)', 'Normal (Academic)'),
