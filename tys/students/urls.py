@@ -11,4 +11,5 @@ urlpatterns = [
     path('papers/<str:subjects>/<str:exams>/', views.StudentPapers.as_view()),
     path('papers/', views.StudentPapers.as_view()),
     path('papers/submit/<str:username>/<str:paper_id>/', views.StudentPapers.as_view()),
+    path('paper/score/<str:username>/<str:paper_id>/', views.StudentScore.as_view()),
 ]

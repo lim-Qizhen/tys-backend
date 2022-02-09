@@ -29,17 +29,20 @@ class StudentLogin(APIView):
         username = request.data['username']
         password = request.data['password']
 
-        user = Student.objects.filter(username= username).first()
+        user = Student.objects.filter(username=username).first()
 
         if user is None:
             raise AuthenticationFailed('This account does not exist, please register first!')
         if not user.check_password(password):
             raise AuthenticationFailed('Incorrect password')
         refresh = RefreshToken.for_user(user)
+        print(refresh)
         serializer = TokenSerializer(data={
-            "token": str(refresh.access_token)
+            "token": str(refresh.access_token),
+            "refresh": str(refresh)
             })
         serializer.is_valid()
+
         return Response(serializer.data)
 
 
@@ -47,6 +50,7 @@ class StudentProfile(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, username):
+        print(request.data)
         student = Student.objects.filter(username=username)[0]
         serializer = StudentSerializer(student)
         return Response(serializer.data)
@@ -122,10 +126,21 @@ class ReviewPapers(APIView):
             print(serializer.errors)
             return Response('Error with saving student work.')
 
-    def get(self,request, username, paper_id):
-        questions = StudentCompletedPapers.objects.filter(username=username).filter(paper_id=paper_id)
+    #get questions
+    def get(self, request, username, paper_id):
+        print('in')
+        questions = StudentCompletedPapers.objects.filter(username=username).filter(paper_id=paper_id).order_by('question_number')
         print(questions)
         serializers = StudentCompletedPaperSerializer(questions, many=True)
         print(serializers.data)
         # serializers.is_valid()
         return Response(serializers.data)
+
+
+#get marks
+class StudentScore(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, username, paper_id):
+        paper = StudentPaper.objects.filter(username=username).filter(paper_id=paper_id)
+        serializer = StudentPaperSerializer(paper, many=True)
+        return Response(serializer.data)
