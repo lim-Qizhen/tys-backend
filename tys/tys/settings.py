@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'tutors',
 ]
 
+AUTH_USER_MODEL = 'students.Student'
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
@@ -144,9 +146,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    # ),
 }
 
 SIMPLE_JWT = {
@@ -163,7 +165,7 @@ SIMPLE_JWT = {
 
     'AUTH_HEADER_TYPES': ('Bearer',),
     'USER_ID_FIELD': 'username',
-    'USER_ID_CLAIM': 'user_id',
+    'USER_ID_CLAIM': 'user_username',
 
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',

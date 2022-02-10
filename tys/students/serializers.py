@@ -5,19 +5,28 @@ Paper = apps.get_model('papers', 'Paper')
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    # class Meta:
+    #     model = Student
+    #     fields = '__all__'
+    #     extra_kwargs = {
+    #         'password': {'write_only': True}
+    #     }
+    #
+    # def create(self, validated_data):
+    #     password = validated_data.pop('password', None)
+    #     hashed = self.Meta.model(**validated_data)
+    #     hashed.set_password(password)
+    #     hashed.save()
+    #     return hashed
     class Meta:
         model = Student
-        fields = '__all__'
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
+        fields="__all__"
 
-    def create(self, validated_data):
-        password = validated_data.pop('password', None)
-        hashed = self.Meta.model(**validated_data)
-        hashed.set_password(password)
-        hashed.save()
-        return hashed
+    def create(self, data):
+        StudentModel = Student
+        student = StudentModel.objects.create_user(**data)
+        student.save()
+        return student
 
 
 class TokenSerializer(serializers.Serializer):

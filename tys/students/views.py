@@ -47,7 +47,7 @@ class StudentLogin(APIView):
 
 
 class StudentProfile(APIView):
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, username):
         print(request.data)

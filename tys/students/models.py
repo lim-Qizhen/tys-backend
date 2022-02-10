@@ -1,9 +1,36 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
 from datetime import timedelta
+
+class StudentManager(BaseUserManager):
+    def create_user(self, email, password=None, **kwargs):
+        if not email:
+            raise ValueError('User must have a valid email.')
+
+        # normalize: change uppercase to lowercase automatically
+        user = self.model(email=self.normalize_email(email),
+                          **kwargs)
+        user.set_password(password)
+        user.save(using=self.db)
+
+        return user
+
+    def create_superuser(self, email, name, surname, password):
+        user = self.create_user(
+            email=email,
+            name=name,
+            surname=surname,
+            password=password
+        )
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_admin = True
+        user.save(using=self._db)
+
+        return user
 
 class Student(AbstractBaseUser):
     SCHOOL_CHOICES = [
@@ -34,6 +61,11 @@ class Student(AbstractBaseUser):
     subject = ArrayField(models.CharField(max_length=100, choices=SUBJECT_CHOICES))
     exams = ArrayField(models.CharField(max_length=100, choices=EXAM_CHOICES))
     password = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+
+    objects = StudentManager()
+
+    USERNAME_FIELD = 'username'
 
     def __str__(self):
         return self.username
