@@ -9,7 +9,11 @@
 /coverage
 
 # production
+<<<<<<< HEAD
 #/tys/build
+=======
+/build
+>>>>>>> parent of 4e9c1ec (trying to deploy)
 
 # misc
 .DS_Store
