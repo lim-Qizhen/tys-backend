@@ -9,6 +9,10 @@ psycopg2-binary = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 djangorestframework-simplejwt = "*"
+<<<<<<< HEAD
+=======
+django-heroku = "*"
+>>>>>>> parent of 9044723 (revert changes for deployment)
 gunicorn = "*"
 whitenoise = "*"
 dj-database-url = "*"
