@@ -1,37 +1,11 @@
-from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
-# Create your models here.
 from datetime import timedelta
+# Create your models here.
 
-class StudentManager(BaseUserManager):
-    def create_user(self, email, password=None, **kwargs):
-        if not email:
-            raise ValueError('User must have a valid email.')
 
-        # normalize: change uppercase to lowercase automatically
-        user = self.model(email=self.normalize_email(email),
-                          **kwargs)
-        user.set_password(password)
-        user.save(using=self.db)
-
-        return user
-
-    def create_superuser(self, username, password):
-        user = self.create_user(
-            email="email@gmail.com",
-            username=username,
-            password=password
-        )
-        user.is_staff = True
-        user.is_superuser = True
-        user.is_admin = True
-        user.save(using=self._db)
-
-        return user
-
-class Student(AbstractBaseUser):
+class Account(AbstractBaseUser):
     SCHOOL_CHOICES = [
         ('Admiralty_Secondary_School', 'Admiralty Secondary School'),
         ("Ahmad_Ibrahim_Secondary_School", "Ahmad_Ibrahim_Secondary_School"),
@@ -184,8 +158,6 @@ class Student(AbstractBaseUser):
         ("Zhenghua_Secondary_School",  "Zhenghua Secondary School"),
         ("Zhonghua_Secondary_School",  "Zhonghua Secondary School"),
     ]
-
-
     SUBJECT_CHOICES = [
         ('Science_(Physics)', 'Science (Physics)'),
         ('Science_(Chemistry)', 'Science (Chemistry)'),
@@ -214,16 +186,17 @@ class Student(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_tutor = models.BooleanField(default=False)
 
-    objects = StudentManager()
+    # objects = AccountManager()
 
     USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['password']
 
     def __str__(self):
         return self.username
 
 
 class StudentPaper(models.Model):
-    username = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+    username = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
     paper_id = models.ForeignKey('papers.Paper', on_delete=models.DO_NOTHING)
     completed = models.BooleanField(default=False)
     results = models.FloatField(default=0)

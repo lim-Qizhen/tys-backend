@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'papers',
     'foreign_key_trial',
     'tutors',
+    'account',
     'whitenoise.runserver_nostatic',
 ]
 

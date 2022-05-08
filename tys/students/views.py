@@ -1,10 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import StudentSerializer, TokenSerializer, PaperSerializer, StudentPaperSerializer, StudentCompletedPaperSerializer
+from .serializers import StudentSerializer, PaperSerializer, StudentPaperSerializer, StudentCompletedPaperSerializer
 from .models import Student, StudentPaper, StudentCompletedPapers
-from rest_framework.exceptions import AuthenticationFailed
+# from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import permissions
-from rest_framework_simplejwt.tokens import RefreshToken
+# from rest_framework_simplejwt.tokens import RefreshToken
 from django.apps import apps
 Paper = apps.get_model('papers', 'Paper')
 
@@ -22,28 +22,28 @@ class StudentCreate(APIView):
             return Response('Error with creating student account.')
 
 
-class StudentLogin(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request):
-        username = request.data['username']
-        password = request.data['password']
-
-        user = Student.objects.filter(username=username).first()
-
-        if user is None:
-            raise AuthenticationFailed('This account does not exist, please register first!')
-        if not user.check_password(password):
-            raise AuthenticationFailed('Incorrect password')
-        refresh = RefreshToken.for_user(user)
-        print(refresh)
-        serializer = TokenSerializer(data={
-            "token": str(refresh.access_token),
-            "refresh": str(refresh)
-            })
-        serializer.is_valid()
-
-        return Response(serializer.data)
+# class StudentLogin(APIView):
+#     permission_classes = (permissions.AllowAny,)
+#
+#     def post(self, request):
+#         username = request.data['username']
+#         password = request.data['password']
+#
+#         user = Student.objects.filter(username=username).first()
+#
+#         if user is None:
+#             raise AuthenticationFailed('This account does not exist, please register first!')
+#         if not user.check_password(password):
+#             raise AuthenticationFailed('Incorrect password')
+#         refresh = RefreshToken.for_user(user)
+#         print(refresh)
+#         serializer = TokenSerializer(data={
+#             "token": str(refresh.access_token),
+#             "refresh": str(refresh)
+#             })
+#         serializer.is_valid()
+#
+#         return Response(serializer.data)
 
 
 class StudentProfile(APIView):
